@@ -1,0 +1,27 @@
+
+.time-box {
+  background-color: black;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 5px;
+
+}
+.item {
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  padding: 10px;
+}
+
+.active {
+  background-color: black;
+  color: white;
+}
+
+
+
+
+
+
+

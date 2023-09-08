@@ -1,0 +1,21 @@
+<div class="button">
+
+    <button (click)="filterData('AU') "  [class.active]="selectedCountryCode === 'AU'">AU</button>
+    <button (click)="filterData('GB')"  [class.active]="selectedCountryCode === 'GB'">GB</button>
+    <button (click)="filterData('US')"  [class.active]="selectedCountryCode === 'US'">US</button>
+
+
+</div>
+<div class="row">
+  <div class="col-6">
+    <div class="item" *ngFor="let data of filteredData">
+      <h4>{{ data.venue }}</h4>
+    </div>
+  </div>
+  <div class="col-6"  style="margin-left: -24px;" >
+    <div class="item" *ngFor="let data of filteredData">
+      <h4 class="time-box"  >{{ getTime(data.date) }}</h4>
+    </div>
+  </div>
+</div>
+
