@@ -5,17 +5,19 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
   selectedCountryCode: string | null = null;
   filteredData: any[] = [];
 
-  constructor(){}
+  constructor() {}
 
   ngOnInit(): void {
 
+    // this.filterData('AU');
+    // this.filterData('GB');
+    // this.filterData('US');
   }
-
 
   input = [
     { id: 611, countryCode: "AU", venue: "Pinjarra", date: "1692591360" },
@@ -27,11 +29,47 @@ export class DashboardComponent implements OnInit{
     { id: 617, countryCode: "GB", venue: "Landgrob", date: "1692626000" },
   ];
 
- ;
-
   filterData(countryCode: string) {
     this.selectedCountryCode = countryCode;
-    this.filteredData = this.input.filter(item => item.countryCode === countryCode);
+
+    const groupedData: any[] = [];
+    const venueData: { [key: string]: boolean } = {};
+
+    this.input.forEach(item => {
+      if (item.countryCode === countryCode) {
+        const venueKey = item.venue;
+
+        if (!venueData[venueKey]) {
+          venueData[venueKey] = true;
+          groupedData.push({
+            id: item.id,
+            countryCode: item.countryCode,
+            venue: item.venue,
+            data: [
+              {
+                id: item.id,
+                countryCode: item.countryCode,
+                venue: item.venue,
+                date: this.getTime(item.date)
+              }
+            ]
+          });
+        } else {
+
+          const existing = groupedData.find(d => d.venue === item.venue);
+          if (existing) {
+            existing.data.push({
+              id: item.id,
+              countryCode: item.countryCode,
+              venue: item.venue,
+              date: this.getTime(item.date)
+            });
+          }
+        }
+      }
+    });
+
+    this.filteredData = groupedData;
   }
 
   getTime(unixTiming: string) {
@@ -39,7 +77,4 @@ export class DashboardComponent implements OnInit{
       .toISOString()
       .substr(11, 5);
   }
-
-
 }
-
